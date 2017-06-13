@@ -19,19 +19,13 @@ router.get('/rental/:id', function (req, res) {
 
 router.post('/rental/:id/:inventoryid', function(req, res) {
 
-    var user_id = req.params.id;
-    var inventory_id = req.params.inventoryid;
-    var query = {
-        sql: 'INSERT INTO `rental` WHERE(`user_id, inventory_id`) VALUES (?, ?)',
-        values: [user_id, inventory_id],
-        timeout: 2000 // 2secs
-    };
-
-    console.dir(rental);
-    console.log('Onze query: ' + query.sql);
+    var inventory_id    = req.params.inventoryid;
+    var customer_id     = req.params.id;
+    var return_date     = req.body.returndate;
+    var staff_id        = req.body.staffid;
 
     res.contentType('application/json');
-    db.query(query, function(error, rows, fields) {
+    db.query('INSERT INTO rental VALUES("*", "*", ?, ?, ?, ?, null)',[inventory_id, customer_id, return_date, staff_id] ,  function(error, rows, fields) {
         if (error) {
             res.status(401).json(error);
         } else {
