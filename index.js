@@ -6,6 +6,7 @@ var express     = require('express');
 var config      = require('./config/config.json');
 var bodyParser  = require('body-parser');
 var routeFilm   = require('./routes/film.routes.v1');
+var routeRental = require('./routes/rental.routes.v1');
 
 //create application
 var app = express();
@@ -22,6 +23,7 @@ app.all('*', function (req, res, next) {
 });
 
 app.use('/api/v1/films', routeFilm);
+app.use('/api/v1/rentals', routeRental);
 
 app.get('*', function (req, res, next) {
     res.contentType('application/json');
