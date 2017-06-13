@@ -38,11 +38,12 @@ router.put('/rental/:id/:inventoryid', function(req, res) {
 
     var inventory_id    = req.params.inventoryid;
     var customer_id     = req.params.id;
+    var rental_date     = req.body.rentaldate;
     var return_date     = req.body.returndate;
-    var staff_id        = req.body.staffid;
+
 
     res.contentType('application/json');
-    db.query('UPDATE rental VALUES("*", "*", ?, ?, ?, ?, null)',[inventory_id, customer_id, return_date, staff_id] ,  function(error, rows, fields) {
+    db.query('UPDATE rental SET rental_date=? , return_date =? WHERE inventory_id =? AND customer_id =?;  ',[rental_date, return_date, inventory_id, customer_id],  function(error, rows, fields) {
         if (error) {
             res.status(401).json(error);
         } else {
