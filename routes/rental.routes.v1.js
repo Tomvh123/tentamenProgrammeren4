@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 var db = require('../db/filmdatabase');
 
-router.get('/rental/:id', function (req, res) {
+router.get('/:userid', function (req, res) {
 
-    var rental_id = req.params.id;
+    var rental_id = req.params.userid;
 
     res.contentType('application/json');
 
@@ -17,10 +17,10 @@ router.get('/rental/:id', function (req, res) {
     });
 });
 
-router.post('/rental/:id/:inventoryid', function(req, res) {
+router.post('/:userid/:inventoryid', function(req, res) {
 
     var inventory_id    = req.params.inventoryid;
-    var customer_id     = req.params.id;
+    var customer_id     = req.params.userid;
     var return_date     = req.body.returndate;
     var staff_id        = req.body.staffid;
 
@@ -34,10 +34,10 @@ router.post('/rental/:id/:inventoryid', function(req, res) {
     });
 });
 
-router.put('/rental/:id/:inventoryid', function(req, res) {
+router.put('/:userid/:inventoryid', function(req, res) {
 
     var inventory_id    = req.params.inventoryid;
-    var customer_id     = req.params.id;
+    var customer_id     = req.params.userid;
     var rental_date     = req.body.rentaldate;
     var return_date     = req.body.returndate;
 
@@ -52,10 +52,10 @@ router.put('/rental/:id/:inventoryid', function(req, res) {
     });
 });
 
-router.delete('/rental/:id/:inventoryid', function(req, res) {
+router.delete('/:userid/:inventoryid', function(req, res) {
 
     var inventory_id    = req.params.inventoryid;
-    var customer_id     = req.params.id;
+    var customer_id     = req.params.userid;
     res.contentType('application/json');
     db.query('DELETE FROM rental WHERE inventory_id=? AND customer_id=? ',[inventory_id, customer_id] ,  function(error, rows, fields) {
         if (error) {
