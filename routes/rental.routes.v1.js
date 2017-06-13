@@ -34,6 +34,40 @@ router.post('/rental/:id/:inventoryid', function(req, res) {
     });
 });
 
+router.put('/rental/:id/:inventoryid', function(req, res) {
+
+    var inventory_id    = req.params.inventoryid;
+    var customer_id     = req.params.id;
+    var return_date     = req.body.returndate;
+    var staff_id        = req.body.staffid;
+
+    res.contentType('application/json');
+    db.query('UPDATE rental VALUES("*", "*", ?, ?, ?, ?, null)',[inventory_id, customer_id, return_date, staff_id] ,  function(error, rows, fields) {
+        if (error) {
+            res.status(401).json(error);
+        } else {
+            res.status(200).json({ result: rows });
+        };
+    });
+});
+
+router.delete('/rental/:id/:inventoryid', function(req, res) {
+
+    var inventory_id    = req.params.inventoryid;
+    var customer_id     = req.params.id;
+    var return_date     = req.body.returndate;
+    var staff_id        = req.body.staffid;
+
+    res.contentType('application/json');
+    db.query('DELETE FROM rental WHERE inventoryid=?',[inventory_id, customer_id, return_date, staff_id] ,  function(error, rows, fields) {
+        if (error) {
+            res.status(401).json(error);
+        } else {
+            res.status(200).json({ result: rows });
+        };
+    });
+});
+
 router.get('*', function (req, res) {
 
     res.contentType('application/json')
