@@ -39,3 +39,14 @@ router.post('/rental/:id/:inventoryid', function(req, res) {
         };
     });
 });
+
+router.get('*', function (req, res) {
+
+    res.contentType('application/json')
+    res.json({
+        "Description": "Welcome to the rental API"
+    });
+
+});
+
+module.exports = router;
