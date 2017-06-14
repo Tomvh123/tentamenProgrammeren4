@@ -8,7 +8,7 @@ var bodyParser  = require('body-parser');
 var routeFilm   = require('./routes/film.routes.v1');
 var routeRental = require('./routes/rental.routes.v1');
 var auth        = require('./authentication/auth');
-var db          = require('./db/filmdatabase')
+//var db          = require('./db/filmdatabase')
 
 //create application
 var app = express();
