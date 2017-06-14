@@ -1,14 +1,14 @@
 /**
  * Created by tom-n on 13-6-2017.
  */
-var http        = require('http');
+//var http        = require('http');
 var express     = require('express');
 var config      = require('./config/config.json');
 var bodyParser  = require('body-parser');
 var routeFilm   = require('./routes/film.routes.v1');
 var routeRental = require('./routes/rental.routes.v1');
 var auth        = require('./authentication/auth');
-//var db          = require('./db/filmdatabase')
+var db          = require('./db/filmdatabase')
 
 //create application
 var app = express();
