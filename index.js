@@ -1,7 +1,7 @@
 /**
  * Created by tom-n on 13-6-2017.
  */
-//var http        = require('http');
+var http        = require('http');
 var express     = require('express');
 var config      = require('./config/config.json');
 var bodyParser  = require('body-parser');
