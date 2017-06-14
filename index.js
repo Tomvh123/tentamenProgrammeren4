@@ -24,7 +24,7 @@ app.all('*', function (req, res, next) {
     next();
 });
 
-app.all( new RegExp("[^(\/login)]"), function(req, res, next) {
+app.all( new RegExp("/api/v1/rental"), function(req, res, next) {
     var token = (req.header('X-Access-Token')) || '';
 
     auth.decodeToken(token, function(err, payload){
@@ -60,8 +60,6 @@ app.post('/login', function(req, res) {
             }
         }
     });
-
-
 });
 
 app.use('/api/v1/films', routeFilm);
