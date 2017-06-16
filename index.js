@@ -62,6 +62,40 @@ app.post('/api/v1/login', function(req, res) {
     });
 });
 
+app.post('/api/v1/register', function(req, res) {
+    console.dir(req.body);
+
+    var username = req.body.username;
+    var password = req.body.password;
+    var storeid = req.body.storeid
+    var firstname = req.body.firstname;
+    var lastname = req.body.lastname;
+    var address = req.body.address;
+    var email = req.body.email;
+    var active = req.body.active;
+    var createdate = req.body.createdate;
+
+
+
+    db.query('INSERT INTO customer (store_id, first_name, last_name, email, adress_id, active, create_date, username, password) VALUES "?", "?", "?", "?", "?", "?", "?", "?", "?" ', [storeid, firstname, lastname, address, email, active, createdate, username, password], function(error, rows, fields) {
+        if (error) {
+            res.status(401).json(error);
+        } else{
+            if(!rows.length) {
+                res.status(401).json({ "error": "Invalid credentials, bye"});
+            }else{
+                var first_name = rows[0].first_name;
+                var last_name = rows[0].last_name;
+                console.log(first_name + " " + last_name);
+                var token = auth.encodeToken(username);
+                res.status(200).json({
+                    "token": token,
+                });
+            }
+        }
+    });
+});
+
 app.use('/api/v1/films', routeFilm);
 app.use('/api/v1/rentals', routeRental);
 
