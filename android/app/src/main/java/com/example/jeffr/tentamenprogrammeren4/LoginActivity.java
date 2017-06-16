@@ -30,7 +30,7 @@ import org.json.JSONObject;
  * Created by tom on 16-6-2017.
  */
 
-public class loginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private EditText editTextUsername, editTextPassword;
     private Button loginButton;
     private TextView txtLoginErrorMSG;
