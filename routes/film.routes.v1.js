@@ -18,7 +18,7 @@ router.get('/film', function(req, res) {
     });
 });
 
-router.get('/film/:id', function (req, res) {
+router.get('/:id', function (req, res) {
 
     var film_id = req.params.id;
 

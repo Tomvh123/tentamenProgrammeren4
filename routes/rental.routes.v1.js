@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 var db = require('../db/filmdatabase');
 
-router.get('/rental/:id', function (req, res) {
+router.get('/:userid', function (req, res) {
 
-    var rental_id = req.params.id;
+    var rental_id = req.params.userid;
 
     res.contentType('application/json');
 
@@ -17,15 +17,47 @@ router.get('/rental/:id', function (req, res) {
     });
 });
 
-router.post('/rental/:id/:inventoryid', function(req, res) {
+router.post('/:userid/:inventoryid', function(req, res) {
 
     var inventory_id    = req.params.inventoryid;
-    var customer_id     = req.params.id;
+    var customer_id     = req.params.userid;
     var return_date     = req.body.returndate;
     var staff_id        = req.body.staffid;
 
     res.contentType('application/json');
     db.query('INSERT INTO rental VALUES("*", "*", ?, ?, ?, ?, null)',[inventory_id, customer_id, return_date, staff_id] ,  function(error, rows, fields) {
+        if (error) {
+            res.status(401).json(error);
+        } else {
+            res.status(200).json({ result: rows });
+        };
+    });
+});
+
+router.put('/:userid/:inventoryid', function(req, res) {
+
+    var inventory_id    = req.params.inventoryid;
+    var customer_id     = req.params.userid;
+    var rental_date     = req.body.rentaldate;
+    var return_date     = req.body.returndate;
+
+
+    res.contentType('application/json');
+    db.query('UPDATE rental SET rental_date=? , return_date =? WHERE inventory_id =? AND customer_id =?;  ',[rental_date, return_date, inventory_id, customer_id],  function(error, rows, fields) {
+        if (error) {
+            res.status(401).json(error);
+        } else {
+            res.status(200).json({ result: rows });
+        };
+    });
+});
+
+router.delete('/:userid/:inventoryid', function(req, res) {
+
+    var inventory_id    = req.params.inventoryid;
+    var customer_id     = req.params.userid;
+    res.contentType('application/json');
+    db.query('DELETE FROM rental WHERE inventory_id=? AND customer_id=? ',[inventory_id, customer_id] ,  function(error, rows, fields) {
         if (error) {
             res.status(401).json(error);
         } else {
@@ -42,5 +74,7 @@ router.get('*', function (req, res) {
     });
 
 });
+
+
 
 module.exports = router;
