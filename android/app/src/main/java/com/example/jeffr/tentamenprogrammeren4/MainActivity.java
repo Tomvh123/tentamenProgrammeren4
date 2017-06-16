@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             
         }else{
             Log.d(TAG, "Geen token gevonden, er moet ingelogd worden");
-            Intent login = new Intent(getApplicationContext(), loginActivity.class);
+            Intent login = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(login);
             finish();
         }
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         movieAdapter.notifyDataSetChanged();
 
         // Navigate to login screen
-        Intent login = new Intent(getApplicationContext(), loginActivity.class);
+        Intent login = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(login);
     }
 }
