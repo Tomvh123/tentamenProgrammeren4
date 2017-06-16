@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             listView.setAdapter(movieAdapter);
 
             Log.d(TAG, "Token gevonden, movies ophalen");
+            getMovies();
 
             
         }else{
@@ -138,6 +139,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onMoviesError(String message) {
         Log.e(TAG, message);
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    private void getMovies(){
+        MovieRequest request = new MovieRequest(getApplicationContext(), this);
+        request.handleGetAllMovies();
     }
 
 

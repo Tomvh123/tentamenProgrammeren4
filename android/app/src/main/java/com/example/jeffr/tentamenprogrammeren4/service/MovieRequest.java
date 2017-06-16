@@ -36,7 +36,7 @@ public class MovieRequest {
         this.listener = listener;
     }
 
-    public void handleGetAllToDos() {
+    public void handleGetAllMovies() {
 
         Log.i(TAG, "handleGetMovies");
 
