@@ -37,7 +37,7 @@ app.all( new RegExp("/api/v1/rental"), function(req, res, next) {
     });
 });
 
-app.post('/login', function(req, res) {
+app.post('/api/v1/login', function(req, res) {
     console.dir(req.body);
 
     var username = req.body.username;
