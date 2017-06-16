@@ -1,0 +1,6 @@
+$ cat .gitignore
+
+.idea/
+android/.idea/modules.xml
+
+node_modules/
