@@ -1,171 +1,179 @@
 package com.example.jeffr.tentamenprogrammeren4;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import nl.avans.movierent.data.RESTApiV1;
-import nl.avans.movierent.interfaces.RequestInterface;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.jeffr.tentamenprogrammeren4.service.Config;
+import com.example.jeffr.tentamenprogrammeren4.service.VolleyRequestQueue;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 
 /**
- * A getToken screen that offers getToken via email/password.
+ * Created by tom on 16-6-2017.
  */
-public class LoginActivity extends AppCompatActivity {
 
-    // UI references.
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+public class loginActivity extends AppCompatActivity {
+    private EditText editTextUsername, editTextPassword;
+    private Button loginButton;
+    private TextView txtLoginErrorMSG;
+
+
+    private String mUsername;
+    private String mPassword;
+
+    public final String TAG = this.getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Set up the getToken form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        editTextUsername = (EditText) findViewById(R.id.usernameEditText);
+        editTextPassword = (EditText) findViewById(R.id.passwordEditText);
+
+        loginButton = (Button) findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
+            public void onClick(View v) {
+                mUsername = editTextUsername.getText().toString();
+                mPassword = editTextPassword.getText().toString();
+                txtLoginErrorMSG.setText("");
+
+                // TODO Checken of username en password niet leeg zijn
+                // momenteel checken we nog niet
+
+                handleLogin(mUsername, mPassword);
+            }
+        });
+    }
+
+    private void handleLogin(String username, String password) {
+        //
+        // Maak een JSON object met username en password. Dit object sturen we mee
+        // als request body (zoals je ook met Postman hebt gedaan)
+        //
+        String body = "{\"username\":\"" + username + "\",\"password\":\"" + password + "\"}";
+        Log.i(TAG, "handleLogin - body = " + body);
+
+        try {
+            JSONObject jsonBody = new JSONObject(body);
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.POST, Config.URL_LOGIN, jsonBody, new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // Succesvol response - dat betekent dat we een geldig token hebben.
+                            // txtLoginErrorMsg.setText("Response: " + response.toString());
+                            displayMessage("Succesvol ingelogd!");
+
+                            // We hebben nu het token. We kiezen er hier voor om
+                            // het token in SharedPreferences op te slaan. Op die manier
+                            // is het token tussen app-stop en -herstart beschikbaar -
+                            // totdat het token expired.
+                            try {
+                                String token = response.getString("token");
+
+                                Context context = getApplicationContext();
+                                SharedPreferences sharedPref = context.getSharedPreferences(
+                                        getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString(getString(R.string.saved_token), token);
+                                editor.commit();
+
+                                // Start the main activity, and close the login activity
+                                Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(main);
+                                // Close the current activity
+                                finish();
+
+                            } catch (JSONException e) {
+                                // e.printStackTrace();
+                                Log.e(TAG, e.getMessage());
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            handleErrorResponse(error);
+                        }
+                    });
+
+            jsObjRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    1500, // SOCKET_TIMEOUT_MS,
+                    2, // DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+            // Access the RequestQueue through your singleton class.
+            VolleyRequestQueue.getInstance(this).addToRequestQueue(jsObjRequest);
+        } catch (JSONException e) {
+            txtLoginErrorMSG.setText(e.getMessage());
+            // e.printStackTrace();
+        }
+        return;
+    }
+
+    public void handleErrorResponse(VolleyError error) {
+        Log.e(TAG, "handleErrorResponse");
+
+        if(error instanceof com.android.volley.AuthFailureError) {
+            String json = null;
+            NetworkResponse response = error.networkResponse;
+            if (response != null && response.data != null) {
+                json = new String(response.data);
+                json = trimMessage(json, "error");
+                if (json != null) {
+                    json = "Error " + response.statusCode + ": " + json;
+                    displayMessage(json);
                 }
-                return false;
+            } else {
+                Log.e(TAG, "handleErrorResponse: kon geen networkResponse vinden.");
             }
-        });
-
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
-    }
-
-
-    /**
-     * Attempts to sign in or register the account specified by the getToken form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual getToken attempt is made.
-     */
-    private void attemptLogin() {
-        // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
-
-        // Store values at the time of the getToken attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }
-
-        if (cancel) {
-            // There was an error; don't attempt getToken and focus the first
-            // form field with an error.
-            focusView.requestFocus();
+        } else if(error instanceof com.android.volley.NoConnectionError) {
+            Log.e(TAG, "handleErrorResponse: server was niet bereikbaar");
+            txtLoginErrorMSG.setText(getString(R.string.error_server_offline));
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user getToken attempt.
-            showProgress(true);
-            RESTApiV1 restApiV1 = new RESTApiV1(this);
-            restApiV1.getToken(email, password, this);
+            Log.e(TAG, "handleErrorResponse: error = " + error);
         }
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        //return email.contains("@");
-        return true;
+    public String trimMessage(String json, String key){
+        Log.i(TAG, "trimMessage: json = " + json);
+        String trimmedString = null;
+
+        try{
+            JSONObject obj = new JSONObject(json);
+            trimmedString = obj.getString(key);
+        } catch(JSONException e){
+            e.printStackTrace();
+            return null;
+        }
+        return trimmedString;
     }
 
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        //return password.length() > 4;
-        return true;
+
+
+    public void displayMessage(String toastString){
+        Toast.makeText(getApplicationContext(), toastString, Toast.LENGTH_LONG).show();
     }
 
-    /**
-     * Shows the progress UI and hides the getToken form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            }
-        });
-
-        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-        mProgressView.animate().setDuration(shortAnimTime).alpha(
-                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-        });
-    }
-
-    @Override
-    public void onSuccess(String string) {
-        showProgress(false);
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.putExtra("token", string);
-        startActivity(intent);
-        finish();
-    }
-
-    @Override
-    public void onError() {
-        showProgress(false);
-        mPasswordView.setError(getString(R.string.error_incorrect_password));
-        mPasswordView.requestFocus();
-    }
 }
-
