@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public final String TAG = this.getClass().getSimpleName();
 
-    public final static String MOVIE_DATA = "MOVIE";
+    public final static String MOVIE_DATA = "FILM";
 
     public static final int MY_REQUEST_CODE = 1234;
 

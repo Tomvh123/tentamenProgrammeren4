@@ -22,8 +22,10 @@ public class MovieAdapter extends ArrayAdapter<Film> {
     private Context mContext;
     private ArrayList<Film> items;
 
-    private static class ViewHolder{
-        TextView test;
+    private static class ViewHolder {
+        TextView title, description;
+
+
     }
 
     public MovieAdapter(Context context, ArrayList<Film> items){
@@ -46,7 +48,8 @@ public class MovieAdapter extends ArrayAdapter<Film> {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(R.layout.activity_movierow, parent, false);
 
-            viewHolder.test = (TextView) convertView.findViewById(R.id.test);
+            viewHolder.title = (TextView) convertView.findViewById(R.id.title);
+            viewHolder.description = (TextView) convertView.findViewById(R.id.description) ;
 
 
             convertView.setTag(viewHolder);
@@ -54,7 +57,8 @@ public class MovieAdapter extends ArrayAdapter<Film> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.test.setText(item.getTitle());
+        viewHolder.title.setText(item.getTitle());
+        viewHolder.description.setText(item.getDescription());
 
         return convertView;
     }

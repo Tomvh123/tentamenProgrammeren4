@@ -96,7 +96,7 @@ public class MovieRequest {
             // Maak een JSON object met username en password. Dit object sturen we mee
             // als request body (zoals je ook met Postman hebt gedaan)
             //
-            String body = "{\"Titel\":\"" + newFilm.getTitle() + "\",\"Beschrijving\":\"" + newFilm.getContents() + "\"}";
+            String body = "{\"Titel\":\"" + newFilm.getTitle() + "\",\"Beschrijving\":\"" + newFilm.getDescription() + "\"}";
 
             try {
                 JSONObject jsonBody = new JSONObject(body);
