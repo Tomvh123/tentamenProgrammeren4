@@ -62,19 +62,22 @@ app.post('/login', function(req, res) {
     });
 });
 
-app.post('/register', function(req, res) {
+app.post('/api/v1/register', function(req, res) {
     console.dir(req.body);
 
     var username = req.body.username;
     var password = req.body.password;
+    var storeid = req.body.storeid
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
     var address = req.body.address;
     var email = req.body.email;
+    var active = req.body.active;
+    var createdate = req.body.createdate;
 
 
 
-    db.query('INSERT INTO customer VALUES "*", "?", "?", "?", "?", "?", "?" ', [firstname, lastname, address, email, username, password], function(error, rows, fields) {
+    db.query('INSERT INTO customer VALUES "?", "?", "?", "?", "?", "?", "?", "?", "?" ', [storeid, firstname, lastname, address, email, active, createdate, username, password], function(error, rows, fields) {
         if (error) {
             res.status(401).json(error);
         } else{
