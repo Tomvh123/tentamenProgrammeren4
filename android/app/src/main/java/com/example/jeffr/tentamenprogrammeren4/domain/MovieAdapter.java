@@ -16,17 +16,17 @@ import java.util.ArrayList;
  * Created by tom on 16-6-2017.
  */
 
-public class MovieAdapter extends ArrayAdapter<Movie> {
+public class MovieAdapter extends ArrayAdapter<Film> {
 
     public static final String TAG = MovieAdapter.class.getSimpleName();
     private Context mContext;
-    private ArrayList<Movie> items;
+    private ArrayList<Film> items;
 
     private static class ViewHolder{
         TextView test;
     }
 
-    public MovieAdapter(Context context, ArrayList<Movie> items){
+    public MovieAdapter(Context context, ArrayList<Film> items){
         super(context, R.layout.activity_movierow, items);
         this.mContext = context;
         this.items = items;
@@ -36,7 +36,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Log.d(TAG, "getView Called");
-        Movie item = items.get(position);
+        Film item = items.get(position);
 
         ViewHolder viewHolder;
 

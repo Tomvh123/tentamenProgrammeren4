@@ -4,25 +4,23 @@ import org.joda.time.DateTime;
 
 import java.io.Serializable;
 
-public class Movie implements Serializable {
+public class Film implements Serializable {
 
     private String title;
     private String contents;
     private String status;
     private DateTime updatedAt;
 
-    public Movie(String title, String contents) {
+    public Film(String title, String contents) {
         this.title = title;
         this.contents = contents;
         this.status = null;
         this.updatedAt = new DateTime();
     }
 
-    public Movie(String title, String contents, String status, DateTime updatedAt) {
+    public Film(String title) {
         this.title = title;
-        this.contents = contents;
-        this.status = status;
-        this.updatedAt = updatedAt;
+
     }
 
     public String getTitle() {

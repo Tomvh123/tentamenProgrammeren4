@@ -13,15 +13,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.jeffr.tentamenprogrammeren4.domain.Film;
+import com.example.jeffr.tentamenprogrammeren4.domain.MovieAdapter;
 import com.example.jeffr.tentamenprogrammeren4.service.MovieRequest;
 
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, MovieRequest.MovieListener, View.OnClickListener {
 
     public final String TAG = this.getClass().getSimpleName();
 
@@ -31,7 +34,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private ListView listView;
     private BaseAdapter movieAdapter;
-    private ArrayList<Movie> movies = new ArrayList<>();
+    private ArrayList<Film> films = new ArrayList<>();
+    private Button logoutButton;
 
 
     @Override
@@ -42,10 +46,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(tokenAvailable()){
             setContentView(R.layout.activity_main);
 
+            logoutButton = (Button) findViewById(R.id.logouButton);
+            logoutButton.setOnClickListener(this);
+
             listView = (ListView) findViewById(R.id.listview);
             listView.setOnItemClickListener(this);
 
-            movieAdapter = new MovieAdapter(this, movies);
+            movieAdapter = new MovieAdapter(this, films);
             listView.setAdapter(movieAdapter);
 
             Log.d(TAG, "Token gevonden, movies ophalen");
@@ -69,11 +76,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.v( TAG, "onActivityResult OK" );
             if (resultCode == Activity.RESULT_OK )
             {
-                final Movie newMovie = (Movie) pData.getSerializableExtra(MOVIE_DATA);
-                Log.v( TAG, "Retrieved Value newToDo is " + newMovie);
+                final Film newFilm = (Film) pData.getSerializableExtra(MOVIE_DATA);
+                Log.v( TAG, "Retrieved Value newToDo is " + newFilm);
 
                 // We need to save our new ToDo
-                postMovie(newMovie);
+                postMovie(newFilm);
             }
         }
 
@@ -103,27 +110,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.i(TAG, "Position " + position + " is geselecteerd");
 
-        Movie movie = movies.get(position);
+        Film film = films.get(position);
         Intent intent = new Intent(getApplicationContext(), MovieDetailActivity.class);
-        intent.putExtra(MOVIE_DATA, movie);
+        intent.putExtra(MOVIE_DATA, film);
         startActivity(intent);
     }
 
     @Override
-    public void onMoviesAvailable(ArrayList<Movie> movieArrayList) {
+    public void onMoviesAvailable(ArrayList<Film> movieArrayList) {
 
         Log.i(TAG, "We hebben " + movieArrayList.size() + " items in de lijst");
 
-        movies.clear();
+        films.clear();
         for(int i = 0; i < movieArrayList.size(); i++) {
-            movies.add(movieArrayList.get(i));
+            films.add(movieArrayList.get(i));
         }
         movieAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onToDoAvailable(Movie movie) {
-        movies.add(movie);
+    public void onMovieAvailable(Film film) {
+        films.add(film);
         movieAdapter.notifyDataSetChanged();
     }
 
@@ -135,8 +142,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-    private void postMovie(Movie movie){
+    private void postMovie(Film film){
         MovieRequest request = new MovieRequest(getApplicationContext(), this);
-        request.handlePostToDo(todo);
+        request.handlePostMovie(film);
+    }
+
+    @Override
+    public void onClick(View v) {
+        // Logout - remove token from local settings and navigate to login screen.
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove(getString(R.string.saved_token));
+        editor.commit();
+
+        // Empty the homescreen
+        films.clear();
+        movieAdapter.notifyDataSetChanged();
+
+        // Navigate to login screen
+        Intent login = new Intent(getApplicationContext(), loginActivity.class);
+        startActivity(login);
     }
 }
