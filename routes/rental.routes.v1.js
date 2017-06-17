@@ -8,7 +8,15 @@ router.get('/:userid', function (req, res) {
 
     res.contentType('application/json');
 
-    db.query('SELECT customer.first_name, film.film_id, film.title FROM rental INNER JOIN customer ON rental.customer_id = customer.customer_id INNER JOIN inventory ON inventory.inventory_id = rental.inventory_id INNER film ON film.film_id = inventory.film_id WHERE customer.customer_id =?', [user_id], function(error, rows, fields) {
+    db.query('SELECT customer.first_name, film.film_id, film.title' +
+        'FROM rental' +
+        'INNER JOIN customer' +
+        'ON rental.customer_id = customer.customer_id' +
+        'INNER JOIN inventory' +
+        'ON inventory.inventory_id = rental.inventory_id' +
+        'INNER film ' +
+        'ON film.film_id = inventory.film_id' +
+        'WHERE customer.customer_id =1', [user_id], function(error, rows, fields) {
         if (error) {
             res.status(401).json(error);
         } else {
