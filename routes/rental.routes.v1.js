@@ -11,8 +11,8 @@ router.get('/:userid', function (req, res) {
     db.query('SELECT customer.first_name, rental.rental_id, inventory.inventory_id ' +
         'FROM customer ' +
         'INNER JOIN rental ' +
-        'ON customer.customer_id = rental.customer_id' +
-        'INNER JOIN inventory' +
+        'ON customer.customer_id = rental.customer_id ' +
+        'INNER JOIN inventory ' +
         'ON rental.inventory_id = inventory.inventory_id ' +
         'WHERE customer.customer_id =?', [user_id], function(error, rows, fields) {
         if (error) {
