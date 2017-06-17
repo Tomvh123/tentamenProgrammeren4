@@ -8,7 +8,11 @@ router.get('/:userid', function (req, res) {
 
     res.contentType('application/json');
 
-    db.query('SELECT * FROM rental WHERE rental_id =?', [rental_id], function(error, rows, fields) {
+    db.query('SELECT title, film_id ' +
+        'FROM film ' +
+        'INNER JOIN inventory ON film.film_id = inventory.film_id ' +
+        'INNER JOIN rental ON inventory.inventory_id = rental.rental_id ' +
+        'INNER JOIN customer ON rental.customer_id = customer.customer_id WHERE customer_id = ?', [rental_id], function(error, rows, fields) {
         if (error) {
             res.status(401).json(error);
         } else {
