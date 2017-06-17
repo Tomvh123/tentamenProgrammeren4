@@ -83,7 +83,7 @@ public class MovieRequest {
 
     public void handlePostMovie(final Film newFilm) {
 
-        Log.i(TAG, "handlePostToDo");
+        Log.i(TAG, "handlePostMovie");
 
         // Haal het token uit de prefs
         // TODO Verplaats het ophalen van het token naar een centraal beschikbare 'utility funtion'

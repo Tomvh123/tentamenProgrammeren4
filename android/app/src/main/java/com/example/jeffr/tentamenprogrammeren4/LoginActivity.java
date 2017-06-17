@@ -30,10 +30,10 @@ import org.json.JSONObject;
  * Created by tom on 16-6-2017.
  */
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText editTextUsername, editTextPassword;
     private Button loginButton;
-    private TextView txtLoginErrorMSG;
+    private TextView txtLoginErrorMSG, register;
 
 
     private String mUsername;
@@ -49,11 +49,15 @@ public class LoginActivity extends AppCompatActivity {
         editTextUsername = (EditText) findViewById(R.id.usernameEditText);
         editTextPassword = (EditText) findViewById(R.id.passwordEditText);
         txtLoginErrorMSG = (TextView) findViewById(R.id.txtLoginErrorMessage);
+        register = (TextView) findViewById(R.id.TVregister);
+        register.setOnClickListener(this);
 
         loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 mUsername = editTextUsername.getText().toString();
                 mPassword = editTextPassword.getText().toString();
                 txtLoginErrorMSG.setText("");
@@ -132,6 +136,8 @@ public class LoginActivity extends AppCompatActivity {
         return;
     }
 
+
+
     public void handleErrorResponse(VolleyError error) {
         Log.e(TAG, "handleErrorResponse");
 
@@ -177,4 +183,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        Intent register = new Intent(getApplicationContext(), RegisterActivity.class);
+        startActivity(register);
+    }
 }
