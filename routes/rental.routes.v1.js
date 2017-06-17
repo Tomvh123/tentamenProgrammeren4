@@ -18,7 +18,7 @@ router.get('/:userid', function (req, res) {
         'ON film.film_id = inventory.film_id' +
         'WHERE customer.customer_id =?', [user_id], function(error, rows, fields) {
         if (error) {
-            res.status(401).json(rows);
+            res.status(401).json(error);
         } else {
             res.status(200).json({ result: rows });
         };
