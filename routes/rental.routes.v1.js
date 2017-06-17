@@ -4,7 +4,7 @@ var db = require('../db/filmdatabase');
 
 router.get('/:userid', function (req, res) {
 
-    var rental_id = req.params.userid;
+    var user_id = req.params.userid;
 
     res.contentType('application/json');
 
@@ -16,9 +16,9 @@ router.get('/:userid', function (req, res) {
         'ON inventory.inventory_id = rental.inventory_id' +
         'INNER film ' +
         'ON film.film_id = inventory.film_id' +
-        'WHERE customer.customer_id =?', [rental_id], function(error, rows, fields) {
+        'WHERE customer.customer_id =?', [user_id], function(error, rows, fields) {
         if (error) {
-            res.status(401).json(error);
+            res.status(401).json(rows);
         } else {
             res.status(200).json({ result: rows });
         };
