@@ -15,7 +15,7 @@ router.get('/:userid', function (req, res) {
         'INNER JOIN inventory ' +
         'ON rental.inventory_id = inventory.inventory_id ' +
         'INNER join film ' +
-        'ON film.film_id = inventory.film_id' +
+        'ON film.film_id = inventory.film_id ' +
         'WHERE customer.customer_id =?', [user_id], function(error, rows, fields) {
         if (error) {
             res.status(401).json(error);
