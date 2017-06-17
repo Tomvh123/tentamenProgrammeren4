@@ -8,7 +8,7 @@ router.get('/:userid', function (req, res) {
 
     res.contentType('application/json');
 
-    db.query('SELECT film.film_id, film.title ' +
+    db.query('SELECT film.film_id, film.title, film.description ' +
         'FROM customer ' +
         'INNER JOIN rental ' +
         'ON customer.customer_id = rental.customer_id ' +
