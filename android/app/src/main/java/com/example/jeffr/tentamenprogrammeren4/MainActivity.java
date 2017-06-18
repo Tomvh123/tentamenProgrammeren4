@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ListView listView;
     private BaseAdapter movieAdapter;
     private ArrayList<Film> films = new ArrayList<>();
-    private Button logoutButton, rentalButton;
+    private Button logoutButton, rentalButton, movieButton;
 
 
     @Override
@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(tokenAvailable()){
             setContentView(R.layout.activity_main);
 
+            movieButton = (Button) findViewById(R.id.movieButton);
+            movieButton.setOnClickListener(this);
             rentalButton = (Button) findViewById(R.id.rentalButton);
             rentalButton.setOnClickListener(this);
             logoutButton = (Button) findViewById(R.id.logouButton);
@@ -120,13 +122,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onRentalMoviesAvailable(ArrayList<Film> films) {
+    public void onRentalMoviesAvailable(ArrayList<Film> movieArrayList) {
 
-        Log.i(TAG, "We hebben " + films.size() + " items in de lijst");
+        Log.i(TAG, "We hebben " + movieArrayList.size() + " items in de lijst");
 
         films.clear();
-        for(int i = 0; i < films.size(); i++) {
-            films.add(films.get(i));
+        for(int i = 0; i < movieArrayList.size(); i++) {
+            films.add(movieArrayList.get(i));
         }
         movieAdapter.notifyDataSetChanged();
 
@@ -134,6 +136,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onRentalMovieAvailable(Film film) {
+        films.clear();
+        films.add(film);
+        movieAdapter.notifyDataSetChanged();
 
     }
 
@@ -156,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onMovieAvailable(Film film) {
+        films.clear();
         films.add(film);
         movieAdapter.notifyDataSetChanged();
     }
@@ -206,9 +212,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 break;
             case R.id.rentalButton:
-
                 getRentalMovies();
-
+                break;
+            case R.id.movieButton:
+                getMovies();
                 break;
         }
 
