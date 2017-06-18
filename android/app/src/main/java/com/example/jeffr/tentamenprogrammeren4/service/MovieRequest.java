@@ -81,6 +81,53 @@ public class MovieRequest {
         }
     }
 
+    public void handleGetAllRentalMovies(int customer_id) {
+
+
+
+        Log.i(TAG, "handleGetRentalMovies");
+
+        // Haal het token uit de prefs
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        final String token = sharedPref.getString(context.getString(R.string.saved_token), "dummy default token");
+        if(token != null && !token.equals("dummy default token")) {
+
+            Log.i(TAG, "Token gevonden, we gaan het request uitvoeren");
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest(
+                    Request.Method.GET,
+                    Config.URL_RENTALMOVIES + customer_id,
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // Succesvol response
+                            Log.i(TAG, response.toString());
+                            ArrayList<Film> result = MovieMapper.mapMovieList(response);
+                            listener.onRentalMoviesAvailable(result);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // handleErrorResponse(error);
+                            Log.e(TAG, error.toString());
+                        }
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type", "application/json");
+                    headers.put("X-Access-Token", token);
+                    return headers;
+                }
+            };
+
+            // Access the RequestQueue through your singleton class.
+            VolleyRequestQueue.getInstance(context).addToRequestQueue(jsObjRequest);
+        }
+    }
+
     public void handlePostMovie(final Film newFilm) {
 
         Log.i(TAG, "handlePostMovie");
@@ -146,6 +193,11 @@ public class MovieRequest {
 
 
     public interface MovieListener {
+        void onRentalMoviesAvailable(ArrayList<Film> films);
+        void onRentalMovieAvailable(Film film);
+        void onRentalMoviesError(String message);
+
+
         void onMoviesAvailable(ArrayList<Film> films);
         void onMovieAvailable(Film film);
         void onMoviesError(String message);

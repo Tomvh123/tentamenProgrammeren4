@@ -10,4 +10,6 @@ public class Config {
     public static final String URL_LOGIN = BASIC_URL + "/api/v1/login";
     public static final String URL_Movies = BASIC_URL + "/api/v1/films/film";
     public static final String URL_REGISTER = BASIC_URL + "/api/v1/register";
+
+    public static final String URL_RENTALMOVIES = BASIC_URL + "/api/v1/rentals/";
 }

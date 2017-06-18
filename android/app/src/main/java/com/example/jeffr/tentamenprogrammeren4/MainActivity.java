@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ListView listView;
     private BaseAdapter movieAdapter;
     private ArrayList<Film> films = new ArrayList<>();
-    private Button logoutButton;
+    private Button logoutButton, rentalButton, movieButton;
 
 
     @Override
@@ -46,6 +46,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(tokenAvailable()){
             setContentView(R.layout.activity_main);
 
+            movieButton = (Button) findViewById(R.id.movieButton);
+            movieButton.setOnClickListener(this);
+            rentalButton = (Button) findViewById(R.id.rentalButton);
+            rentalButton.setOnClickListener(this);
             logoutButton = (Button) findViewById(R.id.logouButton);
             logoutButton.setOnClickListener(this);
 
@@ -118,6 +122,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public void onRentalMoviesAvailable(ArrayList<Film> movieArrayList) {
+
+        Log.i(TAG, "We hebben " + movieArrayList.size() + " items in de lijst");
+
+        films.clear();
+        for(int i = 0; i < movieArrayList.size(); i++) {
+            films.add(movieArrayList.get(i));
+        }
+        movieAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onRentalMovieAvailable(Film film) {
+        films.clear();
+        films.add(film);
+        movieAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onRentalMoviesError(String message) {
+
+    }
+
+    @Override
     public void onMoviesAvailable(ArrayList<Film> movieArrayList) {
 
         Log.i(TAG, "We hebben " + movieArrayList.size() + " items in de lijst");
@@ -131,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onMovieAvailable(Film film) {
+        films.clear();
         films.add(film);
         movieAdapter.notifyDataSetChanged();
     }
@@ -146,6 +177,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         request.handleGetAllMovies();
     }
 
+    private void getRentalMovies(){
+        MovieRequest request = new MovieRequest(getApplicationContext(), this);
+        request.handleGetAllRentalMovies(1);
+    }
+
 
 
     private void postMovie(Film film){
@@ -155,19 +191,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onClick(View v) {
-        // Logout - remove token from local settings and navigate to login screen.
-        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.remove(getString(R.string.saved_token));
-        editor.commit();
 
-        // Empty the homescreen
-        films.clear();
-        movieAdapter.notifyDataSetChanged();
+        switch(v.getId()){
+            case R.id.logouButton:
 
-        // Navigate to login screen
-        Intent login = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(login);
+                // Logout - remove token from local settings and navigate to login screen.
+                SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
+                        getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.remove(getString(R.string.saved_token));
+                editor.commit();
+
+                // Empty the homescreen
+                films.clear();
+                movieAdapter.notifyDataSetChanged();
+
+                // Navigate to login screen
+                Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(login);
+
+                break;
+            case R.id.rentalButton:
+                getRentalMovies();
+                break;
+            case R.id.movieButton:
+                getMovies();
+                break;
+        }
+
+
+
+
+
     }
 }
