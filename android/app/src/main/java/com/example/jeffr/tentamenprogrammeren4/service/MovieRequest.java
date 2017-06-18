@@ -83,6 +83,8 @@ public class MovieRequest {
 
     public void handleGetAllRentalMovies(int customer_id) {
 
+
+
         Log.i(TAG, "handleGetRentalMovies");
 
         // Haal het token uit de prefs
@@ -94,7 +96,7 @@ public class MovieRequest {
             Log.i(TAG, "Token gevonden, we gaan het request uitvoeren");
             JsonObjectRequest jsObjRequest = new JsonObjectRequest(
                     Request.Method.GET,
-                    Config.URL_Movies + customer_id,
+                    Config.URL_RENTALMOVIES + customer_id,
                     null,
                     new Response.Listener<JSONObject>() {
                         @Override
@@ -116,7 +118,7 @@ public class MovieRequest {
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<>();
                     headers.put("Content-Type", "application/json");
-                    headers.put("Authorization", "Bearer " + token);
+                    headers.put("X-Access-Token", token);
                     return headers;
                 }
             };

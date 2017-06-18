@@ -8,11 +8,24 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:openDrawer="start">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="LOGOUT"
-        android:id="@+id/logouButton"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOGOUT"
+            android:id="@+id/logouButton"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MYMOVIES"
+            android:id="@+id/rentalButton"/>
+
+    </LinearLayout>
+
 
         <ListView
             android:layout_width="match_parent"
