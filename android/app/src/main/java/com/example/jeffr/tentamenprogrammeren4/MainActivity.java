@@ -118,6 +118,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public void onRentalMoviesAvailable(ArrayList<Film> films) {
+
+        Log.i(TAG, "We hebben " + films.size() + " items in de lijst");
+
+        films.clear();
+        for(int i = 0; i < films.size(); i++) {
+            films.add(films.get(i));
+        }
+        movieAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onRentalMovieAvailable(Film film) {
+
+    }
+
+    @Override
+    public void onRentalMoviesError(String message) {
+
+    }
+
+    @Override
     public void onMoviesAvailable(ArrayList<Film> movieArrayList) {
 
         Log.i(TAG, "We hebben " + movieArrayList.size() + " items in de lijst");
@@ -144,6 +167,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void getMovies(){
         MovieRequest request = new MovieRequest(getApplicationContext(), this);
         request.handleGetAllMovies();
+    }
+
+    private void getRentalMovies(){
+        MovieRequest request = new MovieRequest(getApplicationContext(), this);
+        request.handleGetAllRentalMovies(1);
     }
 
 
