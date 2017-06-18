@@ -23,7 +23,7 @@ public class MovieAdapter extends ArrayAdapter<Film> {
     private ArrayList<Film> items;
 
     private static class ViewHolder {
-        TextView title, description;
+        TextView title, rating;
 
 
     }
@@ -49,7 +49,7 @@ public class MovieAdapter extends ArrayAdapter<Film> {
             convertView = inflater.inflate(R.layout.activity_movierow, parent, false);
 
             viewHolder.title = (TextView) convertView.findViewById(R.id.title);
-            viewHolder.description = (TextView) convertView.findViewById(R.id.description) ;
+            viewHolder.rating = (TextView) convertView.findViewById(R.id.description) ;
 
 
             convertView.setTag(viewHolder);
@@ -58,7 +58,7 @@ public class MovieAdapter extends ArrayAdapter<Film> {
         }
 
         viewHolder.title.setText(item.getTitle());
-        viewHolder.description.setText(item.getDescription());
+        viewHolder.rating.setText(item.getRating());
 
         return convertView;
     }
