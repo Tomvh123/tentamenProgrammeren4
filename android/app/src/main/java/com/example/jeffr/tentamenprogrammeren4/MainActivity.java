@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private BaseAdapter movieAdapter;
     private ArrayList<Film> films = new ArrayList<>();
     private Button logoutButton, rentalButton, movieButton;
+    private int userid;
 
 
     @Override
@@ -61,6 +62,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Log.d(TAG, "Token gevonden, movies ophalen");
             getMovies();
+
+//            Intent intent = getIntent();
+//            Bundle extras = intent.getExtras();
+//            userid = extras.getInt("id");
+
+            Context context = getApplicationContext();
+            SharedPreferences sharedPref = context.getSharedPreferences(
+                    getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            userid = sharedPref.getInt(getString(R.string.id), userid);
+
 
             
         }else{
@@ -103,6 +114,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return result;
     }
+
+
 
 
 
@@ -179,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void getRentalMovies(){
         MovieRequest request = new MovieRequest(getApplicationContext(), this);
-        request.handleGetAllRentalMovies(1);
+        request.handleGetAllRentalMovies(userid);
     }
 
 
