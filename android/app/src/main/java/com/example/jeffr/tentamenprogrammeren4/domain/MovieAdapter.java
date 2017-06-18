@@ -58,7 +58,7 @@ public class MovieAdapter extends ArrayAdapter<Film> {
         }
 
         viewHolder.title.setText(item.getTitle());
-        viewHolder.description.setText(item.getDescription());
+        viewHolder.description.setText(item.getRating());
 
         return convertView;
     }
