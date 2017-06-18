@@ -78,7 +78,7 @@ app.post('/api/v1/register', function(req, res) {
 
 
 
-    db.query('INSERT INTO customer (store_id, first_name, last_name, email, address_id, active, create_date, username, password) VALUES ("?", "?", "?", "?", "?", "?", "?", "?", "?") ', [storeid, firstname, lastname, email, address, active, createdate, username, password], function(error, rows, fields) {
+    db.query('INSERT INTO customer (store_id, first_name, last_name, email, address_id, active, create_date, username, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ', [storeid, firstname, lastname, email, address, active, createdate, username, password], function(error, rows, fields) {
 
         if (error) {
             res.status(401).json(error);
