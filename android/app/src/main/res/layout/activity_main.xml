@@ -15,19 +15,22 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:layout_marginLeft="25dp"
             android:text="LOGOUT"
             android:id="@+id/logouButton"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
             android:text="ALLMOVIES"
             android:id="@+id/movieButton"/>
 
         <Button
+            android:id="@+id/rentalButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MYMOVIES"
-            android:id="@+id/rentalButton"/>
+            android:text="MYMOVIES" />
 
     </LinearLayout>
 
