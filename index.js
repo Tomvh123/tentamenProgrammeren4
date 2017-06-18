@@ -77,21 +77,14 @@ app.post('/api/v1/register', function(req, res) {
 
 
 
-    db.query('INSERT INTO customer VALUES "?", "?", "?", "?", "?", "?", "?", "?", "?" ', [storeid, firstname, lastname, address, email, active, createdate, username, password], function(error, rows, fields) {
+
+    db.query('INSERT INTO customer (store_id, first_name, last_name, email, address_id, active, create_date, username, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ', [storeid, firstname, lastname, email, address, active, createdate, username, password], function(error, rows, fields) {
+
         if (error) {
             res.status(401).json(error);
         } else{
-            if(!rows.length) {
-                res.status(401).json({ "error": "Invalid credentials, bye"});
-            }else{
-                var first_name = rows[0].first_name;
-                var last_name = rows[0].last_name;
-                console.log(first_name + " " + last_name);
-                var token = auth.encodeToken(username);
-                res.status(200).json({
-                    "token": token,
-                });
-            }
+            res.status(200).json(rows)
+   
         }
     });
 });
