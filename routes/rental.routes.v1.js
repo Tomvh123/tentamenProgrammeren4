@@ -4,11 +4,19 @@ var db = require('../db/filmdatabase');
 
 router.get('/:userid', function (req, res) {
 
-    var rental_id = req.params.userid;
+    var user_id = req.params.userid;
 
     res.contentType('application/json');
 
-    db.query('SELECT * FROM rental WHERE rental_id =?', [rental_id], function(error, rows, fields) {
+    db.query('SELECT film.film_id, film.title, film.description ' +
+        'FROM customer ' +
+        'INNER JOIN rental ' +
+        'ON customer.customer_id = rental.customer_id ' +
+        'INNER JOIN inventory ' +
+        'ON rental.inventory_id = inventory.inventory_id ' +
+        'INNER join film ' +
+        'ON film.film_id = inventory.film_id ' +
+        'WHERE customer.customer_id =?', [user_id], function(error, rows, fields) {
         if (error) {
             res.status(401).json(error);
         } else {
