@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.jeffr.tentamenprogrammeren4.domain.Film;
 import com.example.jeffr.tentamenprogrammeren4.domain.MovieAdapter;
+import com.example.jeffr.tentamenprogrammeren4.domain.RentalAdapter;
 import com.example.jeffr.tentamenprogrammeren4.service.MovieRequest;
 
 import java.util.ArrayList;
@@ -33,9 +34,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final int MY_REQUEST_CODE = 1234;
 
     private ListView listView;
-    private BaseAdapter movieAdapter;
+    private BaseAdapter movieAdapter, rentalAdapter;
     private ArrayList<Film> films = new ArrayList<>();
-    private Button logoutButton;
+    private Button logoutButton, rentalButton;
 
 
     @Override
@@ -49,11 +50,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             logoutButton = (Button) findViewById(R.id.logouButton);
             logoutButton.setOnClickListener(this);
 
+            rentalButton = (Button) findViewById(R.id.MyRentalButton);
+            rentalButton.setOnClickListener(this);
+
             listView = (ListView) findViewById(R.id.listview);
             listView.setOnItemClickListener(this);
 
             movieAdapter = new MovieAdapter(this, films);
             listView.setAdapter(movieAdapter);
+
+            rentalAdapter = new RentalAdapter(this, films);
+            listView.setAdapter(rentalAdapter);
 
             Log.d(TAG, "Token gevonden, movies ophalen");
             getMovies();
