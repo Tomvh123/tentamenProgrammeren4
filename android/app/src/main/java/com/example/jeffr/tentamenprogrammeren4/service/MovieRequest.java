@@ -12,6 +12,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.jeffr.tentamenprogrammeren4.R;
 import com.example.jeffr.tentamenprogrammeren4.domain.Film;
 import com.example.jeffr.tentamenprogrammeren4.domain.MovieMapper;
+import com.example.jeffr.tentamenprogrammeren4.domain.MovieRentalMapper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,7 +108,7 @@ public class MovieRequest {
                         public void onResponse(JSONObject response) {
                             // Succesvol response
                             Log.i(TAG, response.toString());
-                            ArrayList<Film> result = MovieMapper.mapMovieList(response);
+                            ArrayList<Film> result = MovieRentalMapper.mapMovieList(response);
                             listener.onRentalMoviesAvailable(result);
                         }
                     },
