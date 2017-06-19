@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'test';
 process.env.SECRET_KEY = 'test';
 var chai = require('chai');
 var chaiHttp = require('chai-http');
-var server = require('../server');
+var server = require('../index');
 var should = chai.should();
 
 chai.use(chaiHttp);
