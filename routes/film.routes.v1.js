@@ -24,7 +24,13 @@ router.get('/:id', function (req, res) {
 
     res.contentType('application/json');
 
-    db.query('SELECT * FROM film WHERE film_id =?', [film_id], function(error, rows, fields) {
+    db.query('SELECT film.film_id, film.title, inventory.inventory_id, rental.rental_id ' +
+        'FROM film ' +
+        'INNER JOIN inventory ' +
+        'ON film.film_id = inventory.film_id ' +
+        'LEFT JOIN rental ' +
+        'ON rental.inventory_id = inventory.inventory_id ' +
+        'WHERE film.film_id =?', [film_id], function(error, rows, fields) {
         if (error) {
             res.status(401).json(error);
         } else {
