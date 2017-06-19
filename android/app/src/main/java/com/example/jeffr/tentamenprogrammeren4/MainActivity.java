@@ -185,6 +185,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
+
+
     private void getMovies(){
         MovieRequest request = new MovieRequest(getApplicationContext(), this);
         request.handleGetAllMovies();
