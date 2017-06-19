@@ -22,8 +22,9 @@ public class RentalAdapter extends ArrayAdapter<Film> {
     private Context mContext;
     private ArrayList<Film> items;
 
+
     private static class ViewHolder {
-        TextView title, return_date;
+        TextView title, return_date, available;
 
 
     }
@@ -50,6 +51,7 @@ public class RentalAdapter extends ArrayAdapter<Film> {
 
             viewHolder.title = (TextView) convertView.findViewById(R.id.rentaltitle);
             viewHolder.return_date = (TextView) convertView.findViewById(R.id.returndate) ;
+            viewHolder.available = (TextView) convertView.findViewById(R.id.available);
 
 
             convertView.setTag(viewHolder);
@@ -58,7 +60,23 @@ public class RentalAdapter extends ArrayAdapter<Film> {
         }
 
         viewHolder.title.setText(item.getTitle());
-        viewHolder.return_date.setText(item.getReturn_date());
+        Log.d(TAG, item.getReturn_date());
+
+
+        if (item.getReturn_date() == "null"){
+            viewHolder.return_date.setText("Rental duration: " + item.getRental_rate() + " Rental rate: "+item.getRental_rate());
+        }else{
+            viewHolder.return_date.setText("Return date: " + item.getReturn_date());
+        }
+
+
+        Integer rental_id = item.getRental_id();
+        if (rental_id != 0){
+            viewHolder.available.setText("Available");
+        }else{
+            viewHolder.available.setText("Unavailable");
+        }
+
 
         return convertView;
     }
