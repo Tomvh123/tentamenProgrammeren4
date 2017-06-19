@@ -16,7 +16,7 @@ import static com.example.jeffr.tentamenprogrammeren4.MainActivity.MOVIE_DATA;
 
 /**
  * Package: Android
- * Created by Jeffry on 28-5-2017.
+ * Created by Jeffry on 16-6-2017.
  */
 
 public class MovieDetailActivity extends AppCompatActivity {
