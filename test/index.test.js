@@ -7,7 +7,7 @@ var should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Register, login and deleting customers', function () {
+describe('Login and register customers', function () {
 
     it('get by a return an error on GET at /api/v1/login in a json object including a error', function (done) {
         chai.request(server)
@@ -105,7 +105,7 @@ describe('Register, login and deleting customers', function () {
     });
 });
 
-describe('Films endpoints', function () {
+describe('Films endpoint', function () {
     it('should return a json array with movies', function (done) {
         chai.request(server)
             .get('/api/v1/films')
