@@ -29,7 +29,7 @@ public class RentalAdapter extends ArrayAdapter<Film> {
     }
 
     public RentalAdapter(Context context, ArrayList<Film> items){
-        super(context, R.layout.activity_detail, items);
+        super(context, R.layout.activity_rentalrow, items);
         this.mContext = context;
         this.items = items;
         Log.d(TAG, "Consturctor called");
@@ -46,7 +46,7 @@ public class RentalAdapter extends ArrayAdapter<Film> {
 
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(mContext);
-            convertView = inflater.inflate(R.layout.activity_detail, parent, false);
+            convertView = inflater.inflate(R.layout.activity_rentalrow, parent, false);
 
             viewHolder.title = (TextView) convertView.findViewById(R.id.rentaltitle);
             viewHolder.return_date = (TextView) convertView.findViewById(R.id.returndate) ;
