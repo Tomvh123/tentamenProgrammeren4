@@ -95,16 +95,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             // totdat het token expired.
                             try {
                                 String token = response.getString("token");
+                                int userid = response.getInt("userid");
 
                                 Context context = getApplicationContext();
                                 SharedPreferences sharedPref = context.getSharedPreferences(
                                         getString(R.string.preference_file_key), Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPref.edit();
                                 editor.putString(getString(R.string.saved_token), token);
+                                editor.putInt(getString(R.string.id), userid);
                                 editor.commit();
 
                                 // Start the main activity, and close the login activity
                                 Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                                
                                 startActivity(main);
                                 // Close the current activity
                                 finish();
