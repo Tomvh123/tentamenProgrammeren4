@@ -6,7 +6,7 @@ public class Film implements Serializable {
   
     private int film_id, return_date, original_language_id, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, inventory_id, rental_id, rental_duration;
 
-    
+
 
     private String title, description, rating, special_features, last_update;
 
