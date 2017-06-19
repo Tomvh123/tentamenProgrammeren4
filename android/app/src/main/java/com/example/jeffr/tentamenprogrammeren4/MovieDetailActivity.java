@@ -21,7 +21,7 @@ import static com.example.jeffr.tentamenprogrammeren4.MainActivity.MOVIE_DATA;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
-    private TextView title, desription, release;
+    private TextView title, desription, release, rating;
 
     public final String TAG = this.getClass().getSimpleName();
 
@@ -33,6 +33,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         title = (TextView) findViewById(R.id.dtitle);
         desription = (TextView) findViewById(R.id.ddescription);
         release = (TextView) findViewById(R.id.drelease);
+        rating = (TextView) findViewById(R.id.drating);
+
 
         Bundle extras = getIntent().getExtras();
 
@@ -42,6 +44,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         title.setText(film.getTitle());
         desription.setText(film.getDescription());
         release.setText(String.valueOf(film.getRelease_year()));
+        rating.setText(film.getRating());
 
 }
 
