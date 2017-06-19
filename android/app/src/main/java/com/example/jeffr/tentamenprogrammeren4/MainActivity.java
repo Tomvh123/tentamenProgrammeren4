@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void deleteRentalMovies(Film film){
-        //Log.d(TAG, film.getTitle()+ film.getInventory_id() + "test");
+        Log.d(TAG, film.getTitle()+ film.getInventory_id() + "test");
         MovieRequest request = new MovieRequest(getApplicationContext(), this);
         request.handleDelMovie(film);
         //movieAdapter.notifyDataSetChanged();
