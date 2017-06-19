@@ -2,6 +2,7 @@ package com.example.jeffr.tentamenprogrammeren4.service;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -25,16 +26,20 @@ import java.util.Map;
  * Created by tom on 19-6-2017.
  */
 
-public class MovieIdRequest {
+public class MovieIdRequest extends AppCompatActivity {
 
     private Context context;
     public final String TAG = this.getClass().getSimpleName();
+    int userid;
 
     private MovieIdRequest.MovieIdlistener listener;
+
+
 
     public MovieIdRequest(Context context, MovieIdRequest.MovieIdlistener listener){
         this.context = context;
         this.listener = listener;
+
     }
 
         public void handleGetAllMoviesId(int film_id) {
@@ -101,12 +106,19 @@ public class MovieIdRequest {
 
             String body = "{\"returndate\":\"" + d +  "\",\"staffid\":" + 1 +  "}";
 
+            sharedPref = context.getSharedPreferences(
+                    context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            userid = sharedPref.getInt(context.getString(R.string.id), userid);
+
             try {
+
+
+
                 JSONObject jsonBody = new JSONObject(body);
                 Log.i(TAG, "handlePostToDo - body = " + jsonBody);
                 JsonObjectRequest jsObjRequest = new JsonObjectRequest(
                         Request.Method.POST,
-                        Config.URL_POSTRENTAL + newFilm.getFilm_id() + "/" + newFilm.getInventory_id(),
+                        Config.URL_POSTRENTAL + userid + "/" + newFilm.getInventory_id(),
                         jsonBody,
                         new Response.Listener<JSONObject>() {
                             @Override
