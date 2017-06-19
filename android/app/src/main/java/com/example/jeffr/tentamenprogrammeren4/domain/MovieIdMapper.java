@@ -22,7 +22,7 @@ public class MovieIdMapper {
     public static final String RENTAL_id = "rental_id";
     public static final String RETURN_DATE = "return_date";
     public static final String RENTAL_DURATION = "rental_duration";
-    public static final String RENTAL_COST = "rental_cost";
+    public static final String RENTAL_RATE = "rental_rate";
 
 
 
@@ -52,7 +52,7 @@ public class MovieIdMapper {
                         jsonObject.optInt(RENTAL_id),
                         jsonObject.getString(RETURN_DATE),
                         jsonObject.getInt(RENTAL_DURATION),
-                        jsonObject.getInt(RENTAL_COST)
+                        jsonObject.getInt(RENTAL_RATE)
                         //       jsonObject.getString(TODO_STATUS),
                         //todoDateTime
                 );

@@ -72,9 +72,9 @@ public class RentalAdapter extends ArrayAdapter<Film> {
 
         Integer rental_id = item.getRental_id();
         if (rental_id != 0){
-            viewHolder.available.setText("Available");
-        }else{
             viewHolder.available.setText("Unavailable");
+        }else{
+            viewHolder.available.setText("Available");
         }
 
 
