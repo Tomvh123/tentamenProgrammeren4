@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 
 describe('Register, login and deleting customers', function () {
 
-    it('should return an error on GET at /api/v1/login in a json object including a error', function (done) {
+    it('get by a return an error on GET at /api/v1/login in a json object including a error', function (done) {
         chai.request(server)
             .get('/api/v1/login')
             .auth('thisisaemail@gmail.com', 'thisisapassword')
@@ -89,20 +89,6 @@ describe('Register, login and deleting customers', function () {
 
     });
 
-    it('should return an object on DELETE', function (done) {
-        chai.request(server)
-            .delete('/api/v1/delete')
-            .auth('thisisaemail@gmail.com', 'thisisapassword')
-            .end(function (err, res) {
-                res.should.have.status(200);
-                res.should.be.json;
-                res.body.should.be.an('object');
-                res.body.should.have.property('message').that.is.a('string');
-                res.body.message.should.equal('Customer successfully deleted');
-                done();
-            });
-
-    });
 
     it('should return an error on GET at /api/v1/login in a json object including a error', function (done) {
         chai.request(server)
@@ -128,20 +114,6 @@ describe('Films endpoints', function () {
                 res.should.be.json;
                 res.body.should.be.an('object');
                 res.body.should.have.property('result').that.is.a('array');
-
-                done();
-            });
-    });
-
-    it('should return a json array with 1 movie', function (done) {
-        chai.request(server)
-            .get('/api/v1/films/1')
-            .end(function (err, res) {
-                res.should.have.status(200);
-                res.should.be.json;
-                res.body.should.be.an('object');
-                res.body.should.have.property('result').that.is.a('array');
-                res.body.result.should.have.length(1);
 
                 done();
             });
