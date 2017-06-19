@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Film implements Serializable {
 
-    private int film_id, original_language_id, release_year, language_id, rental_duration, rental_rate, length, replacement_cost;
+    private int film_id, original_language_id, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, inventory_id, rental_id;
     private String title, description, rating, special_features, last_update;
 
     public Film(int film_id, String title, String description, int release_year, int language_id, int rental_duration , int rental_rate, int length, int replacement_cost, String rating, String special_features, String last_update) {
@@ -23,8 +23,19 @@ public class Film implements Serializable {
         this.last_update = last_update;
     }
 
+    public Film(int film_id, String title, int inventory_id, int rental_id ){
+        this.film_id = film_id;
+        this.title = title;
+        this.inventory_id = inventory_id;
+        this.rental_id = rental_id;
+
+    }
 
 
+
+    public int getInventory_id(){return  inventory_id;}
+
+    public int getRental_id(){return rental_id;}
 
     public int getFilm_id() {
         return film_id;
@@ -77,6 +88,10 @@ public class Film implements Serializable {
     public String getLast_update() {
         return last_update;
     }
+
+    public void setRental_id(int rental_id){this.rental_id = rental_id;}
+
+    public void setInventory_id(int inventory_id){this.inventory_id = inventory_id;}
 
     public void setFilm_id(int film_id) {
         this.film_id = film_id;
