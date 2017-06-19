@@ -50,12 +50,13 @@ app.post('/api/v1/login', function(req, res) {
             if(!rows.length) {
                 res.status(401).json({ "error": "Invalid credentials, bye"});
             }else{
-                var first_name = rows[0].first_name;
-                var last_name = rows[0].last_name;
-                console.log(first_name + " " + last_name);
+                var userid = rows[0].customer_id;
+
+                console.log(userid);
                 var token = auth.encodeToken(username);
                    res.status(200).json({
                         "token": token,
+                       "userid": userid
                     });
             }
         }
