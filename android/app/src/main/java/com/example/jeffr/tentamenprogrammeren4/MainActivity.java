@@ -138,6 +138,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (allMovies == false && delete == true){
             deleteRentalMovies(film);
             Log.d(TAG, "delete");
+            Context context = getApplicationContext();
+            CharSequence text = "movie: " + film.getTitle() + " deleted";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+
+            getRentalMovies();
+
+
 
         }else {
 
