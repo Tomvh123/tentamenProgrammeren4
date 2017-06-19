@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:openDrawer="start">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:layout_marginLeft="25dp"
+            android:text="LOGOUT"
+            android:id="@+id/logouButton"
+            android:layout_weight="1"
+            android:textSize="10dp"
+            android:layout_gravity="center"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:text="ALLMOVIES"
+            android:id="@+id/movieButton"
+            android:layout_weight="1"
+            android:textSize="10dp"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/rentalButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="MYMOVIES"
+            android:layout_weight="1"
+            android:textSize="10dp"
+            android:layout_gravity="center"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="DeleteMode"
+            android:id="@+id/deleteButton"
+            android:layout_weight="1"
+            android:textSize="10dp"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listview">
+
+        </ListView>
+
+</LinearLayout>
