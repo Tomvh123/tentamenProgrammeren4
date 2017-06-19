@@ -37,6 +37,7 @@ public class MovieDetailActivity extends AppCompatActivity implements AdapterVie
     private BaseAdapter movieAdapter;
     private ArrayList<Film> films = new ArrayList<>();
     private int film_id;
+    private TextView status;
 
     private TextView title, desription, release, rating;
 
@@ -51,6 +52,7 @@ public class MovieDetailActivity extends AppCompatActivity implements AdapterVie
         desription = (TextView) findViewById(R.id.ddescription);
         release = (TextView) findViewById(R.id.drelease);
         rating = (TextView) findViewById(R.id.drating);
+        status = (TextView) findViewById(R.id.available);
 
         listView = (ListView) findViewById(R.id.listViewDetail);
         listView.setOnItemClickListener(this);
@@ -81,6 +83,21 @@ public class MovieDetailActivity extends AppCompatActivity implements AdapterVie
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+        Log.i(TAG, "Position " + position + " is geselecteerd");
+        Film film = films.get(position);
+        Log.d(TAG, "" + film.getRental_id());
+        if (film.getRental_id() != 0) {
+            Log.d(TAG, "movie not saved");
+        }else{
+
+            MovieIdRequest request = new MovieIdRequest(getApplicationContext(), this);
+            request.handlePostMovie(film);
+            movieAdapter.notifyDataSetChanged();
+        }
+
+
+
+
     }
 
     @Override
@@ -94,10 +111,22 @@ public class MovieDetailActivity extends AppCompatActivity implements AdapterVie
         }
         movieAdapter.notifyDataSetChanged();
 
+
+    }
+
+    @Override
+    public void onMovieAvailable(Film film) {
+
+    }
+
+    @Override
+    public void onMoviesError(String message) {
+
     }
 
     private void getMovies(){
         MovieIdRequest request = new MovieIdRequest(getApplicationContext(), this);
         request.handleGetAllMoviesId(film_id);
     }
+
 }
