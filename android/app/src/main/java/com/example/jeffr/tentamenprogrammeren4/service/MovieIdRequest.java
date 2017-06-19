@@ -157,11 +157,15 @@ public class MovieIdRequest extends AppCompatActivity {
         }
     }
 
+
+
     public interface MovieIdlistener{
         void onMoviesIdAvailable(ArrayList<Film> films);
 
         void onMovieAvailable(Film film);
         void onMoviesError(String message);
+
+
 
     }
 

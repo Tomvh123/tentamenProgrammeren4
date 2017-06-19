@@ -133,15 +133,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Film film = films.get(position);
 
         if (allMovies == false && delete == true){
+            deleteRentalMovies(film);
 
 
         }else {
 
             Log.i(TAG, "Position " + position + " is geselecteerd");
 
-            Film film = films.get(position);
+
             Intent intent = new Intent(getApplicationContext(), MovieDetailActivity.class);
             intent.putExtra(MOVIE_DATA, film);
             startActivity(intent);
@@ -199,6 +201,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void onMovieDelAvailable(Film film) {
+
+    }
+
+    @Override
+    public void onMoviesDelError(String message) {
+
+    }
 
 
     private void getMovies(){
@@ -214,6 +225,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         request.handleGetAllRentalMovies(userid);
         allMovies = false;
         Log.d(TAG, "rentalmovies");
+    }
+
+    private void deleteRentalMovies(Film film){
+        MovieRequest request = new MovieRequest(getApplicationContext(), this);
+        request.handleDelMovie(film);
+        movieAdapter.notifyDataSetChanged();
     }
 
 
