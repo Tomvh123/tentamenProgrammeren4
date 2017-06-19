@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (allMovies == false && delete == true){
             deleteRentalMovies(film);
-
+            Log.d(TAG, "delete");
 
         }else {
 
@@ -202,7 +202,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onMovieDelAvailable(Film film) {
+    public void onMovieDelAvailable() {
+        movieAdapter.notifyDataSetChanged();
+
+
 
     }
 
@@ -228,9 +231,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void deleteRentalMovies(Film film){
+        //Log.d(TAG, film.getTitle()+ film.getInventory_id() + "test");
         MovieRequest request = new MovieRequest(getApplicationContext(), this);
         request.handleDelMovie(film);
-        movieAdapter.notifyDataSetChanged();
+        //movieAdapter.notifyDataSetChanged();
     }
 
 

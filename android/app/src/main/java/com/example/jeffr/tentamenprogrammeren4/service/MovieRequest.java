@@ -17,7 +17,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -203,35 +202,25 @@ public class MovieRequest {
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         final String token = sharedPref.getString(context.getString(R.string.saved_token), "dummy default token");
         if(token != null && !token.equals("dummy default token")) {
-
-            //
-            // Maak een JSON object met username en password. Dit object sturen we mee
-            // als request body (zoals je ook met Postman hebt gedaan)
-            //
-            Date d = new Date();
-
-            String body = "{\"returndate\":\"" + d +  "\",\"staffid\":" + 1 +  "}";
-
+            String body = "{\"Titel\":\"" + newFilm.getTitle() + "\",\"Beschrijving\":\"" + newFilm.getDescription() + "\"}";
             sharedPref = context.getSharedPreferences(
                     context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
             userid = sharedPref.getInt(context.getString(R.string.id), userid);
 
             try {
                 JSONObject jsonBody = new JSONObject(body);
-                Log.i(TAG, "handlePostToDo - body = " + jsonBody);
+                Log.i(TAG, "handleDelmovie - body = " + jsonBody);
                 JsonObjectRequest jsObjRequest = new JsonObjectRequest(
-                        Request.Method.PUT,
+                        Request.Method.DELETE,
                         Config.URL_POSTRENTAL + userid + "/" + newFilm.getInventory_id(),
                         jsonBody,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 Log.i(TAG, response.toString());
-                                // Het toevoegen is gelukt
-                                // Hier kun je kiezen: of een refresh door de hele lijst op te halen
-                                // en de ListView bij te werken ... Of alleen de ene update toevoegen
-                                // aan de ArrayList. Wij doen dat laatste.
-                                listener.onMovieAvailable(newFilm);
+
+                                listener.onMovieDelAvailable();
+                                Log.d(TAG, Config.URL_POSTRENTAL + userid + "/" + newFilm.getInventory_id() );
                             }
                         },
                         new Response.ErrorListener() {
@@ -272,7 +261,7 @@ public class MovieRequest {
         void onMovieAvailable(Film film);
         void onMoviesError(String message);
 
-        void onMovieDelAvailable(Film film);
+        void onMovieDelAvailable();
         void onMoviesDelError(String message);
 
 

@@ -69,7 +69,7 @@ router.delete('/:userid/:inventoryid', function(req, res) {
         if (error) {
             res.status(401).json(error);
         } else {
-            res.status(200).json({ result: rows });
+            res.status(200).json({ result: "good" });
         };
     });
 });
