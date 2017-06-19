@@ -9,10 +9,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by tom on 16-6-2017.
+ * Created by tom on 19-6-2017.
  */
 
-public class MovieMapper {
+public class MovieRentalMapper {
 
     // De JSON attributen die we uitlezen
     public static final String MOVIE_ID = "film_id";
@@ -63,10 +63,10 @@ public class MovieMapper {
                         jsonObject.getInt(REPLACEMENT_COST),
                         jsonObject.getString(RATING),
                         jsonObject.getString(SPECIAL_FEATURES),
-                        jsonObject.getString(LAST_UPDATE)
+                        jsonObject.getString(LAST_UPDATE),
+                        jsonObject.getInt(INVENTORY_ID)
 
-
-                 //       jsonObject.getString(TODO_STATUS),
+                        //       jsonObject.getString(TODO_STATUS),
                         //todoDateTime
                 );
                 // Log.i("ToDoMapper", "ToDo: " + toDo);

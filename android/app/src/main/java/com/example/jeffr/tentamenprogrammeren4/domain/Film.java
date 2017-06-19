@@ -10,6 +10,24 @@ public class Film implements Serializable {
 
     private String title, description, rating, special_features, last_update, return_date;
 
+    public Film(int film_id, String title, String description, int release_year, int language_id, int rental_duration , int rental_rate, int length, int replacement_cost, String rating, String special_features, String last_update, int inventory_id) {
+        this.title = title;
+        this.description = description;
+        this.film_id = film_id;
+        this.release_year = release_year;
+        this.language_id = language_id;
+        this.original_language_id = original_language_id;
+        this.rental_duration = rental_duration;
+        this.rental_rate = rental_rate;
+        this.length = length;
+        this.replacement_cost = replacement_cost;
+        this.rating = rating;
+        this.special_features = special_features;
+        this.last_update = last_update;
+        this.inventory_id = inventory_id;
+
+    }
+
     public Film(int film_id, String title, String description, int release_year, int language_id, int rental_duration , int rental_rate, int length, int replacement_cost, String rating, String special_features, String last_update) {
         this.title = title;
         this.description = description;
@@ -24,6 +42,7 @@ public class Film implements Serializable {
         this.rating = rating;
         this.special_features = special_features;
         this.last_update = last_update;
+
 
     }
 
