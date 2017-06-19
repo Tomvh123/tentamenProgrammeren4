@@ -138,6 +138,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (allMovies == false && delete == true){
             deleteRentalMovies(film);
             Log.d(TAG, "delete");
+            Context context = getApplicationContext();
+            CharSequence text = "movie: " + film.getTitle() + " deleted";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+
+            getRentalMovies();
+
+
 
         }else {
 
@@ -231,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void deleteRentalMovies(Film film){
-        //Log.d(TAG, film.getTitle()+ film.getInventory_id() + "test");
+        Log.d(TAG, film.getTitle()+ film.getInventory_id() + "test");
         MovieRequest request = new MovieRequest(getApplicationContext(), this);
         request.handleDelMovie(film);
         //movieAdapter.notifyDataSetChanged();

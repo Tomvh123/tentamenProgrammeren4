@@ -1,5 +1,6 @@
 package com.example.jeffr.tentamenprogrammeren4;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jeffr.tentamenprogrammeren4.domain.Film;
 import com.example.jeffr.tentamenprogrammeren4.domain.RentalAdapter;
@@ -93,6 +95,15 @@ public class MovieDetailActivity extends AppCompatActivity implements AdapterVie
             MovieIdRequest request = new MovieIdRequest(getApplicationContext(), this);
             request.handlePostMovie(film);
             movieAdapter.notifyDataSetChanged();
+
+            Context context = getApplicationContext();
+            CharSequence text = "Movie: " + film.getTitle() + " saved";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+
+            getMovies();
         }
 
 
