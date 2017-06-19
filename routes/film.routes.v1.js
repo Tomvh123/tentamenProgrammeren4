@@ -24,7 +24,7 @@ router.get('/:id', function (req, res) {
 
     res.contentType('application/json');
 
-    db.query('SELECT film.film_id, film.title, inventory.inventory_id, rental.rental_id ' +
+    db.query('SELECT film.film_id, film.title, inventory.inventory_id, rental.rental_id, rental.return_date ' +
         'FROM film ' +
         'INNER JOIN inventory ' +
         'ON film.film_id = inventory.film_id ' +
