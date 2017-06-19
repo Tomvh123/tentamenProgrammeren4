@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jeffr.tentamenprogrammeren4.R;
@@ -24,6 +25,7 @@ public class MovieAdapter extends ArrayAdapter<Film> {
 
     private static class ViewHolder {
         TextView title, description;
+        ImageView photo;
 
 
     }
@@ -50,6 +52,7 @@ public class MovieAdapter extends ArrayAdapter<Film> {
 
             viewHolder.title = (TextView) convertView.findViewById(R.id.title);
             viewHolder.description = (TextView) convertView.findViewById(R.id.description) ;
+            viewHolder.photo = (ImageView) convertView.findViewById(R.id.photo);
 
 
             convertView.setTag(viewHolder);
