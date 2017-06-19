@@ -81,6 +81,8 @@ public class MovieRequest {
         }
     }
 
+
+
     public void handleGetAllRentalMovies(int customer_id) {
 
 
@@ -197,9 +199,11 @@ public class MovieRequest {
         void onRentalMovieAvailable(Film film);
         void onRentalMoviesError(String message);
 
-
         void onMoviesAvailable(ArrayList<Film> films);
         void onMovieAvailable(Film film);
         void onMoviesError(String message);
+
+
+
     }
 }

@@ -3,9 +3,12 @@ package com.example.jeffr.tentamenprogrammeren4.domain;
 import java.io.Serializable;
 
 public class Film implements Serializable {
+  
+    private int film_id, original_language_id, release_year, language_id, rental_rate, length, replacement_cost, inventory_id, rental_id, rental_duration;
 
-    private int film_id, original_language_id, release_year, language_id, rental_duration, rental_rate, length, replacement_cost;
-    private String title, description, rating, special_features, last_update;
+
+
+    private String title, description, rating, special_features, last_update, return_date;
 
     public Film(int film_id, String title, String description, int release_year, int language_id, int rental_duration , int rental_rate, int length, int replacement_cost, String rating, String special_features, String last_update) {
         this.title = title;
@@ -21,14 +24,31 @@ public class Film implements Serializable {
         this.rating = rating;
         this.special_features = special_features;
         this.last_update = last_update;
+
+    }
+
+    public Film(int film_id, String title, int inventory_id, int rental_id, String return_date, int rental_duration, int rental_rate ){
+        this.film_id = film_id;
+        this.title = title;
+        this.inventory_id = inventory_id;
+        this.rental_id = rental_id;
+        this.return_date = return_date;
+        this.rental_duration = rental_duration;
+        this.rental_rate = rental_rate;
+
     }
 
 
 
+    public int getInventory_id(){return  inventory_id;}
+
+    public int getRental_id(){return rental_id;}
 
     public int getFilm_id() {
         return film_id;
     }
+
+    public String getReturn_date() {return return_date;}
 
     public String getTitle(){
         return title;
@@ -78,6 +98,10 @@ public class Film implements Serializable {
         return last_update;
     }
 
+    public void setRental_id(int rental_id){this.rental_id = rental_id;}
+
+    public void setInventory_id(int inventory_id){this.inventory_id = inventory_id;}
+
     public void setFilm_id(int film_id) {
         this.film_id = film_id;
     }
@@ -110,6 +134,8 @@ public class Film implements Serializable {
         this.replacement_cost = replacement_cost;
     }
 
+    public void setReturn_date(String return_date) { this.return_date = return_date;}
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -129,9 +155,6 @@ public class Film implements Serializable {
     public void setLast_update(String last_update) {
         this.last_update = last_update;
     }
-
-
-
 
 
     @Override
