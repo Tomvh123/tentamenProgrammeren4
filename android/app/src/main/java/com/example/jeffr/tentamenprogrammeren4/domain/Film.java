@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Film implements Serializable {
 
-    private int film_id, original_language_id, release_year, language_id, rental_duration, rental_rate, length, replacement_cost;
+    private int film_id, return_date, original_language_id, release_year, language_id, rental_duration, rental_rate, length, replacement_cost;
     private String title, description, rating, special_features, last_update;
 
     public Film(int film_id, String title, String description, int release_year, int language_id, int rental_duration , int rental_rate, int length, int replacement_cost, String rating, String special_features, String last_update) {
@@ -21,6 +21,7 @@ public class Film implements Serializable {
         this.rating = rating;
         this.special_features = special_features;
         this.last_update = last_update;
+        this.return_date = return_date;
     }
 
 
@@ -29,6 +30,8 @@ public class Film implements Serializable {
     public int getFilm_id() {
         return film_id;
     }
+
+    public int getReturn_date() {return return_date;}
 
     public String getTitle(){
         return title;
@@ -110,6 +113,8 @@ public class Film implements Serializable {
         this.replacement_cost = replacement_cost;
     }
 
+    public void setReturn_date(int return_date) { this.return_date = return_date;}
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -129,9 +134,6 @@ public class Film implements Serializable {
     public void setLast_update(String last_update) {
         this.last_update = last_update;
     }
-
-
-
 
 
     @Override
