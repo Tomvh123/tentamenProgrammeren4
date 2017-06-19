@@ -35,8 +35,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ListView listView;
     private BaseAdapter movieAdapter;
     private ArrayList<Film> films = new ArrayList<>();
-    private Button logoutButton, rentalButton, movieButton;
+    private Button logoutButton, rentalButton, movieButton, deleteButton;
     private int userid;
+    boolean allMovies = true;
+    boolean delete = false;
 
 
     @Override
@@ -47,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(tokenAvailable()){
             setContentView(R.layout.activity_main);
 
+
+            deleteButton = (Button) findViewById(R.id.deleteButton);
+            deleteButton.setOnClickListener(this);
             movieButton = (Button) findViewById(R.id.movieButton);
             movieButton.setOnClickListener(this);
             rentalButton = (Button) findViewById(R.id.rentalButton);
@@ -59,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             movieAdapter = new MovieAdapter(this, films);
             listView.setAdapter(movieAdapter);
+
+            deleteButton.setVisibility(View.INVISIBLE);
 
             Log.d(TAG, "Token gevonden, movies ophalen");
             getMovies();
@@ -126,12 +133,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.i(TAG, "Position " + position + " is geselecteerd");
-
         Film film = films.get(position);
-        Intent intent = new Intent(getApplicationContext(), MovieDetailActivity.class);
-        intent.putExtra(MOVIE_DATA, film);
-        startActivity(intent);
+
+        if (allMovies == false && delete == true){
+            deleteRentalMovies(film);
+            Log.d(TAG, "delete");
+
+        }else {
+
+            Log.i(TAG, "Position " + position + " is geselecteerd");
+
+
+            Intent intent = new Intent(getApplicationContext(), MovieDetailActivity.class);
+            intent.putExtra(MOVIE_DATA, film);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -185,16 +201,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void onMovieDelAvailable() {
+        movieAdapter.notifyDataSetChanged();
+
+
+
+    }
+
+    @Override
+    public void onMoviesDelError(String message) {
+
+    }
 
 
     private void getMovies(){
         MovieRequest request = new MovieRequest(getApplicationContext(), this);
         request.handleGetAllMovies();
+        allMovies = true;
+        Log.d(TAG, "allmovies");
+
     }
 
     private void getRentalMovies(){
         MovieRequest request = new MovieRequest(getApplicationContext(), this);
         request.handleGetAllRentalMovies(userid);
+        allMovies = false;
+        Log.d(TAG, "rentalmovies");
+    }
+
+    private void deleteRentalMovies(Film film){
+        //Log.d(TAG, film.getTitle()+ film.getInventory_id() + "test");
+        MovieRequest request = new MovieRequest(getApplicationContext(), this);
+        request.handleDelMovie(film);
+        //movieAdapter.notifyDataSetChanged();
     }
 
 
@@ -228,9 +268,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.rentalButton:
                 getRentalMovies();
+                deleteButton.setVisibility(View.VISIBLE);
                 break;
             case R.id.movieButton:
                 getMovies();
+                deleteButton.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.deleteButton:
+
+                if(delete == false){
+                    delete = true;
+                    deleteButton.setText("on");
+                }else{
+                    delete = false;
+                    deleteButton.setText("off");
+                }
                 break;
         }
 

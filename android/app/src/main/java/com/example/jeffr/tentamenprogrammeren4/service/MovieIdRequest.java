@@ -2,6 +2,7 @@ package com.example.jeffr.tentamenprogrammeren4.service;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -13,9 +14,11 @@ import com.example.jeffr.tentamenprogrammeren4.R;
 import com.example.jeffr.tentamenprogrammeren4.domain.Film;
 import com.example.jeffr.tentamenprogrammeren4.domain.MovieIdMapper;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,16 +26,21 @@ import java.util.Map;
  * Created by tom on 19-6-2017.
  */
 
-public class MovieIdRequest {
+public class MovieIdRequest extends AppCompatActivity {
 
     private Context context;
     public final String TAG = this.getClass().getSimpleName();
+    int userid;
+
 
     private MovieIdRequest.MovieIdlistener listener;
+
+
 
     public MovieIdRequest(Context context, MovieIdRequest.MovieIdlistener listener){
         this.context = context;
         this.listener = listener;
+
     }
 
         public void handleGetAllMoviesId(int film_id) {
@@ -80,8 +88,84 @@ public class MovieIdRequest {
             }
         }
 
+    public void handlePostMovie(final Film newFilm) {
+
+        Log.i(TAG, "handlePostMovie");
+
+        // Haal het token uit de prefs
+        // TODO Verplaats het ophalen van het token naar een centraal beschikbare 'utility funtion'
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        final String token = sharedPref.getString(context.getString(R.string.saved_token), "dummy default token");
+        if(token != null && !token.equals("dummy default token")) {
+
+            //
+            // Maak een JSON object met username en password. Dit object sturen we mee
+            // als request body (zoals je ook met Postman hebt gedaan)
+            //
+            Date d = new Date();
+
+            String body = "{\"returndate\":\"" + d +  "\",\"staffid\":" + 1 +  "}";
+
+            sharedPref = context.getSharedPreferences(
+                    context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            userid = sharedPref.getInt(context.getString(R.string.id), userid);
+
+            try {
+
+
+
+                JSONObject jsonBody = new JSONObject(body);
+                Log.i(TAG, "handlePostToDo - body = " + jsonBody);
+                JsonObjectRequest jsObjRequest = new JsonObjectRequest(
+                        Request.Method.POST,
+                        Config.URL_POSTRENTAL + userid + "/" + newFilm.getInventory_id(),
+                        jsonBody,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.i(TAG, response.toString());
+                                // Het toevoegen is gelukt
+                                // Hier kun je kiezen: of een refresh door de hele lijst op te halen
+                                // en de ListView bij te werken ... Of alleen de ene update toevoegen
+                                // aan de ArrayList. Wij doen dat laatste.
+                                listener.onMovieAvailable(newFilm);
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // Error - send back to caller
+                                listener.onMoviesError(error.toString());
+                            }
+                        }){
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("Content-Type", "application/json");
+                        headers.put("X-Access-Token", token);
+                        return headers;
+                    }
+                };
+
+                // Access the RequestQueue through your singleton class.
+                VolleyRequestQueue.getInstance(context).addToRequestQueue(jsObjRequest);
+            } catch (JSONException e) {
+                Log.e(TAG, e.getMessage());
+                listener.onMoviesError(e.getMessage());
+            }
+        }
+    }
+
+
+
     public interface MovieIdlistener{
         void onMoviesIdAvailable(ArrayList<Film> films);
+
+        void onMovieAvailable(Film film);
+        void onMoviesError(String message);
+
+
 
     }
 
