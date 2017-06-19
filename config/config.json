@@ -1,0 +1,8 @@
+{
+  "database"  :     "tentamenprogrammeren4",
+  "dbUser"    :     "user",
+  "dbHost"    :     "localhost",
+  "webPort"   :     "8080",
+  "secretKey" :     "superSecretKey"
+
+}
