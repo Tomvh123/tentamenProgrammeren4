@@ -31,6 +31,8 @@ public class MovieRequest {
 
     private MovieRequest.MovieListener listener;
 
+    private int userid;
+
     public MovieRequest(Context context, MovieRequest.MovieListener listener){
         this.context = context;
         this.listener = listener;
@@ -190,6 +192,62 @@ public class MovieRequest {
         }
     }
 
+    public void handleDelMovie(final Film newFilm) {
+
+        Log.i(TAG, "handlePostMovie");
+
+        // Haal het token uit de prefs
+        // TODO Verplaats het ophalen van het token naar een centraal beschikbare 'utility funtion'
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        final String token = sharedPref.getString(context.getString(R.string.saved_token), "dummy default token");
+        if(token != null && !token.equals("dummy default token")) {
+            String body = "{\"Titel\":\"" + newFilm.getTitle() + "\",\"Beschrijving\":\"" + newFilm.getDescription() + "\"}";
+            sharedPref = context.getSharedPreferences(
+                    context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            userid = sharedPref.getInt(context.getString(R.string.id), userid);
+
+            try {
+                JSONObject jsonBody = new JSONObject(body);
+                Log.i(TAG, "handleDelmovie - body = " + jsonBody);
+                JsonObjectRequest jsObjRequest = new JsonObjectRequest(
+                        Request.Method.DELETE,
+                        Config.URL_POSTRENTAL + userid + "/" + newFilm.getInventory_id(),
+                        jsonBody,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.i(TAG, response.toString());
+
+                                listener.onMovieDelAvailable();
+                                Log.d(TAG, Config.URL_POSTRENTAL + userid + "/" + newFilm.getInventory_id() );
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // Error - send back to caller
+                                listener.onMoviesError(error.toString());
+                            }
+                        }){
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("Content-Type", "application/json");
+                        headers.put("X-Access-Token", token);
+                        return headers;
+                    }
+                };
+
+                // Access the RequestQueue through your singleton class.
+                VolleyRequestQueue.getInstance(context).addToRequestQueue(jsObjRequest);
+            } catch (JSONException e) {
+                Log.e(TAG, e.getMessage());
+                listener.onMoviesError(e.getMessage());
+            }
+        }
+    }
+
 
 
 
@@ -202,6 +260,9 @@ public class MovieRequest {
         void onMoviesAvailable(ArrayList<Film> films);
         void onMovieAvailable(Film film);
         void onMoviesError(String message);
+
+        void onMovieDelAvailable();
+        void onMoviesDelError(String message);
 
 
 
