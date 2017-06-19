@@ -72,6 +72,8 @@ public class MovieDetailActivity extends AppCompatActivity implements AdapterVie
         release.setText(String.valueOf(film.getRelease_year()));
         rating.setText(film.getRating());
 
+        getMovies();
+
 
 
 }

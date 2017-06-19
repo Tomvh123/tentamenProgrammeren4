@@ -41,11 +41,13 @@ public class MovieIdMapper {
                 //String timestamp = jsonObject.getString(TODO_UPDATED_AT);
                 //DateTime todoDateTime = ISODateTimeFormat.dateTimeParser().parseDateTime(timestamp);
 
+
+
                 Film film = new Film(
                         jsonObject.getInt(MOVIE_ID),
                         jsonObject.getString(MOVIE_TITLE),
                         jsonObject.getInt(INVENTORY_ID),
-                        jsonObject.getInt(RENTAL_id),
+                        jsonObject.optInt(RENTAL_id),
                         jsonObject.getString(RETURN_DATE)
                         //       jsonObject.getString(TODO_STATUS),
                         //todoDateTime
