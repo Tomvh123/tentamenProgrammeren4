@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.movieButton:
                 getMovies();
-                
+
                 deleteButton.setEnabled(false);
                 break;
             case R.id.deleteButton:

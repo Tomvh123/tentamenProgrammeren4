@@ -64,7 +64,9 @@ public class RentalAdapter extends ArrayAdapter<Film> {
 
 
         if (item.getReturn_date() == "null"){
-            viewHolder.return_date.setText("Rental duration: " + item.getRental_rate() + " Rental rate: "+item.getRental_rate());
+            int i = item.getRental_rate();
+            double i2 = (double) i;
+            viewHolder.return_date.setText("Rental duration: " + item.getRental_rate() + " days" + " Rental rate: €"+ i2+ "0");
         }else{
             viewHolder.return_date.setText("Return date: " + item.getReturn_date());
         }

@@ -103,7 +103,7 @@ public class MovieIdRequest extends AppCompatActivity {
             // Maak een JSON object met username en password. Dit object sturen we mee
             // als request body (zoals je ook met Postman hebt gedaan)
             //
-            Date d = new Date();
+            String d = newFilm.getReturn_date();
 
             String body = "{\"returndate\":\"" + d +  "\",\"staffid\":" + 1 +  "}";
 
