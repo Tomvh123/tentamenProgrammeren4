@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             movieAdapter = new MovieAdapter(this, films);
             listView.setAdapter(movieAdapter);
 
-            deleteButton.setVisibility(View.INVISIBLE);
+            deleteButton.setEnabled(false);
 
             Log.d(TAG, "Token gevonden, movies ophalen");
             getMovies();
@@ -273,15 +273,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // Navigate to login screen
                 Intent login = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(login);
+                finish();
 
                 break;
             case R.id.rentalButton:
                 getRentalMovies();
-                deleteButton.setVisibility(View.VISIBLE);
+
+                deleteButton.setEnabled(true);
                 break;
             case R.id.movieButton:
                 getMovies();
-                deleteButton.setVisibility(View.INVISIBLE);
+
+                deleteButton.setEnabled(false);
                 break;
             case R.id.deleteButton:
 
