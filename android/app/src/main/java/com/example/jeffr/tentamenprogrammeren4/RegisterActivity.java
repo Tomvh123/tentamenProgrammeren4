@@ -60,7 +60,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         //
         String body = "{\"username\":\"" + username + "\",\"password\":\"" + password + "\",\"storeid\":\"" + storeid + "\",\"firstname\":\"" + firstname + "\",\"lastname\":\"" + lastname + "\",\"address\":\"" + address + "\",\"email\":\"" + email + "\",\"active\":\"" + active + "\",\"createdate\":\"" + createdate + "\"}";
         Log.i(TAG, "handleRegister - body = " + body);
-
         try {
             JSONObject jsonBody = new JSONObject(body);
             JsonObjectRequest jsObjRequest = new JsonObjectRequest
