@@ -56,7 +56,7 @@ public class MovieIdMapper {
                         //       jsonObject.getString(TODO_STATUS),
                         //todoDateTime
                 );
-                // Log.i("ToDoMapper", "ToDo: " + toDo);
+
                 result.add(film);
                 Log.d("film", film.getTitle());
             }
