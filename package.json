@@ -4,8 +4,7 @@
   "description": "",
   "main": "./index.js",
   "scripts": {
-    "start": "node ./index.js",
-    "test": "vows --spec"
+    "start": "node ./index.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +21,7 @@
     "express": "^4.15.3",
     "foobar": "^1.1.0",
     "jwt-simple": "^0.5.1",
+    "mocha": "^3.4.2",
     "moment": "^2.18.1",
     "mysql": "^2.13.0"
   }
